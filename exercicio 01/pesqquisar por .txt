@@ -1,0 +1,6 @@
+carro 1 saiu da pista
+carro 2 entrou na pista
+
+
+carro 1 entrou na pista
+carro 2 entrou na pista
