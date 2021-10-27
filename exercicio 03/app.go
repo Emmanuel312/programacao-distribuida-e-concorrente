@@ -1,3 +1,8 @@
+// alunos:
+// Emmanuel Felipe Nery (efn)
+// Jonathan Kilner dos Santos (jkss)
+// Luiz Antonio de Albuquerque Junior (laaj)
+
 package main
 
 import (
