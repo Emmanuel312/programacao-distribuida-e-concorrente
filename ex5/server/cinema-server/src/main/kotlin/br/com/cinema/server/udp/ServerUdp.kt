@@ -4,38 +4,69 @@ import br.com.cinema.server.adapter.MovieTheaterRepository
 import br.com.cinema.server.adapter.Server
 import br.com.cinema.server.dto.Message
 import br.com.cinema.server.dto.Op
+import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.DatagramPacket
 import java.net.DatagramSocket
-
+import kotlin.random.Random
 
 class ServerUdp(
     private val socket: DatagramSocket = DatagramSocket(4445),
     private val buffer: ByteArray = ByteArray(1024),
-    private val movieTheaterRepository : MovieTheaterRepository
+    private val movieTheaterRepository: MovieTheaterRepository
 ) : Server {
 
-    override fun run() {
+    override suspend fun run() = coroutineScope {
         while (true) {
+            println("Waiting for connections...")
             val packet = DatagramPacket(buffer, buffer.size)
-            println("Esperando por uma requisição")
-            socket.receive(packet)
-//            val address = packet.address
-//            val port = packet.port
-//            packet = DatagramPacket(buffer, buffer.size, address, port)
-            val received = String(packet.data, Charsets.UTF_8).substring(0, packet.length)
-            val message = Json.decodeFromString<Message>(received)
-//            socket.send(packet)
 
-            println(message)
-
-            when(message.op) {
-                Op.List -> movieTheaterRepository.listAvailableChairs()
-                Op.Buy -> movieTheaterRepository.buyTicket(message.number!!)
+            withContext(Dispatchers.IO) {
+                socket.receive(packet)
             }
+            println("Receiving connection...")
+            launch(Dispatchers.IO) { process(packet) }
+
+            if (movieTheaterRepository.listAvailableChairs().isEmpty()) socket.close()
         }
-        socket.close()
     }
 
+    private suspend fun process(packet: DatagramPacket) {
+        val received = String(packet.data, Charsets.UTF_8).substring(0, packet.length)
+        val message = Json.decodeFromString<Message>(received)
+
+        delay(Random.nextLong(100))
+
+        when (message.op) {
+            Op.List -> sendAvailableChairs(packet)
+            Op.Buy -> sendBuyTicket(packet, message)
+        }
+    }
+
+    private suspend fun sendAvailableChairs(packet: DatagramPacket) {
+        val data = movieTheaterRepository.listAvailableChairs()
+        println(Json.encodeToString(data.first()))
+        sendMessage(packet, Json.encodeToString(data))
+    }
+
+    private suspend fun sendBuyTicket(packet: DatagramPacket, message: Message) {
+        try {
+            val successMessage = movieTheaterRepository.buyTicket(message.number!!)
+            sendMessage(packet, successMessage)
+        } catch (ex: Exception) {
+            ex.message?.let { sendMessage(packet, it) }
+        }
+    }
+
+    private suspend fun sendMessage(clientPacket: DatagramPacket, data: String) {
+        val address = clientPacket.address
+        val port = clientPacket.port
+        val packet = data.toByteArray()
+
+        withContext(Dispatchers.IO) {
+            socket.send(DatagramPacket(packet, packet.size, address, port))
+        }
+    }
 }

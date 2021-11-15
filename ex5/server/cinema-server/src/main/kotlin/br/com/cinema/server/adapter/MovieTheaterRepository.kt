@@ -4,5 +4,5 @@ import br.com.cinema.server.dataprovider.Chair
 
 interface MovieTheaterRepository {
     fun listAvailableChairs() : List<Chair>
-    fun buyTicket(number: Int)
+    fun buyTicket(number: Int) : String
 }
