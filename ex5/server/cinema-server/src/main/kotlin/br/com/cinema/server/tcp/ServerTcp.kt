@@ -21,18 +21,22 @@ class ServerTcp(
 ) : Server {
 
     override suspend fun run() = coroutineScope {
+        println("TCP - Server running on thread ${Thread.currentThread().name}")
         while (true) {
-            println("Waiting for connections...")
-            val connection = socket.accept()
+            println("TCP - Waiting for connections...")
 
-            println("Receiving connection...")
-            launch(Dispatchers.IO) { process(connection) }
+            withContext(Dispatchers.IO) {
+                val connection = socket.accept()
+                println("TCP - Receiving connection...")
+                launch { process(connection) }
+            }
 
             if (movieTheaterRepository.listAvailableChairs().isEmpty()) socket.close()
         }
     }
 
     private suspend fun process(connection: Socket) {
+        println("TCP - Request on thread ${Thread.currentThread().name}")
         val input = BufferedReader(
             InputStreamReader(
                 connection.getInputStream()
@@ -51,8 +55,6 @@ class ServerTcp(
 
     private suspend fun sendAvailableChairs(connection: Socket) {
         val data = movieTheaterRepository.listAvailableChairs()
-        println(data)
-        println(Json.encodeToString(data.first()))
         sendMessage(connection, Json.encodeToString(data))
     }
 
@@ -69,7 +71,7 @@ class ServerTcp(
         val output = DataOutputStream(
             connection.getOutputStream()
         )
-        println("sending")
+        println("Sending...")
         withContext(Dispatchers.IO) {
             output.writeBytes(data)
             connection.close()
