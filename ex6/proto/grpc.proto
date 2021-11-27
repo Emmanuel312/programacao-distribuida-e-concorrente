@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package cinema;
+
+// The greeting service definition.
+service Cinema {
+  // Sends a greeting
+  rpc buyTicket (buyTicketRequest) returns (buyTicketReply) {}
+  rpc listAllAvailableChairs () returns (availableChairReply) {}
+}
+
+// The request message containing the user's name.
+message buyTicketRequest {
+  string ticket = 1;
+}
+
+// The response message containing the greetings
+message buyTicketReply {
+  string replyTicket = 1;
+}
+
+message availableChairReply {
+    string chairReply = 1;
+}
