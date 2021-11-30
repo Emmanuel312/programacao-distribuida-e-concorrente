@@ -6,7 +6,7 @@ package cinema;
 service Cinema {
   // Sends a greeting
   rpc buyTicket (buyTicketRequest) returns (buyTicketReply) {}
-  rpc listAllAvailableChairs () returns (availableChairReply) {}
+  rpc listAllAvailableChairs (Empty) returns (availableChairReply) {}
 }
 
 // The request message containing the user's name.
@@ -22,3 +22,5 @@ message buyTicketReply {
 message availableChairReply {
     string chairReply = 1;
 }
+
+message Empty {}

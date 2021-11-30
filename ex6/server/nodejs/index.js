@@ -25,8 +25,8 @@ function listAllAvailableChairs(call, callback){
 function main() {
   var server = new grpc.Server();
   server.addService(cinema_proto.Cinema.service, {
-    buyTicket: buyTicket,
-    listAllAvailableChairs: listAllAvailableChairs
+    buyTicket,
+    listAllAvailableChairs
   });
   server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
     server.start();
