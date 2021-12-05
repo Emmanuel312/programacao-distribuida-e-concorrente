@@ -1,56 +1,71 @@
 const net = require('net')
-const { input, question } = require('../utils')
+const { input, question } = require('../utils/keyboard')
+const { loadTest } = require('../utils/loadTest')
+const { resolve } = require("path")
 
-const client = new net.Socket({})
+async function main(IsLoad = false) {
+    const client = new net.Socket({})
 
-function main() {
-    input.question(question, answer => {
-        switch(answer) {
-            case "1": 
-                listAllAvailableChairs()
-                input.close()
-                break
-            
-            case "2": 
-                buyTicket()
-                break
-        }
-    })
+    if(IsLoad)
+        await listAllAvailableChairs(client)
+        
+    else 
+        input.question(question, async answer => {
+            switch(answer) {
+                case "1": 
+                    await listAllAvailableChairs(client)
+                    input.close()
+                    break
+                
+                case "2": 
+                    await buyTicket(client)
+                    input.close()
+                    break
+            }
+        })
 }
 
-function listAllAvailableChairs() {
+async function listAllAvailableChairs(client) {
     const data = { op : "List" }
     const message = Buffer.from(JSON.stringify(data) + '\n')
 
-    send(message)
+    await send(client, message)
 }
 
-function buyTicket() {
-    input.question("Choose a chair\n", question => {
+async function buyTicket(client) {
+    input.question("Choose a chair\n", async question => {
         const data = { op : "Buy", number: Number(question) }
         const message = Buffer.from(JSON.stringify(data) + '\n')
 
-        send(message)
-
-        input.close()
+        await send(client, message)
     })
 }
 
-function send(message) {
-    let received = ""
+async function send(client, message) {
+    return new Promise((resolve, reject) => {
+        let received = ""
 
-    client.connect(4446, '127.0.0.1', () => {
-        client.write(message)
-    })
+        client.connect(4446, '127.0.0.1', () => {
+            client.write(message)
+            // console.log("conectado")
+        })
+        
+        client.addListener("data", data => {
+            received += data.toString()
+        })
     
-    client.addListener("data", data => {
-        received += data.toString()
-    })
-
-    client.addListener("end", () => {
-        console.log(received)
+        client.addListener("end", () => {
+            // console.log("end")
+            resolve()
+        })
+    
+        client.addListener("error", error => {
+            console.log(error)
+            reject()
+        })
     })
 }
 
+loadTest(resolve(__dirname, "..", "..", "..", "..", "loadTest", "data", "./tcp.txt"), async (IsLoad) => await main(IsLoad))
 
-main()
+

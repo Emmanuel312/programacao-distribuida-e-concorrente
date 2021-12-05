@@ -1,52 +1,64 @@
 const dgram = require('dgram')
 const { Buffer } = require('buffer')
-const { input, question } = require('../utils')
+const { input, question } = require('../utils/keyboard')
+const { loadTest } = require('../utils/loadTest')
+const { resolve } = require("path")
 
-const client = dgram.createSocket('udp4')
+async function main(loadTest = false) {
+    const client = dgram.createSocket('udp4')
 
-function main() {
-    input.question(question, answer => {
-        switch(answer) {
-            case "1": 
-                listAllAvailableChairs()
-                input.close()
-                break
-            
-            case "2": 
-                buyTicket()
-                break
-        }
-    })
+    if(loadTest) {
+        await listAllAvailableChairs(client)
+    }
+    else
+        input.question(question, async answer => {
+            switch(answer) {
+                case "1": 
+                    await listAllAvailableChairs(client)
+                    input.close()
+                    break
+                
+                case "2": 
+                    await buyTicket(client)
+                    input.close()
+                    break
+            }
+        })
 }
 
-function listAllAvailableChairs() {
+async function listAllAvailableChairs(client) {
     const data = { op : "List" }
     const message = Buffer.from(JSON.stringify(data))
 
-    send(message)
+    await send(client, message)
 }
 
-function buyTicket() {
-    input.question("Choose a chair\n", question => {
+async function buyTicket(client) {
+    input.question("Choose a chair\n", async question => {
         const data = { op : "Buy", number: Number(question) }
         const message = Buffer.from(JSON.stringify(data))
 
-        send(message)
-
-        input.close()
+        await send(client, message)
     })
 }
 
-function send(message) {
-    client.send(message, 4445, 'localhost', (err) => {
-        if(err) console.log(err)
-    })
+async function send(client, message) {
+    return new Promise((resolve, reject) => {
+        client.send(message, 4445, 'localhost', (err) => {
+            if(err) reject()
+        })
+    
+        client.addListener("message", msg => {
+            resolve()
+            client.close()
+        })
 
-    client.addListener("message", msg => {
-        console.log(msg.toString())
-        client.close()
+        client.addListener("error", error => {
+            console.log(error)
+            reject()
+        })
     })
 }
 
 
-main()
+loadTest(resolve(__dirname, "..", "..", "..", "..", "loadTest", "data", "./udp.txt"), async (isLoad) => main(isLoad))

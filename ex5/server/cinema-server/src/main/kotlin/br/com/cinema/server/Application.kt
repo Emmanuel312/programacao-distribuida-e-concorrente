@@ -10,12 +10,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
-    val movieTheaterRepository: MovieTheaterRepository = MovieTheaterRepositoryImpl()
+    val movieTheaterRepository = MovieTheaterRepositoryImpl()
+//    startTcpServer(movieTheaterRepository)
+    startUdpServer(movieTheaterRepository)
+}
+
+suspend fun startTcpServer(movieTheaterRepository : MovieTheaterRepository) = runBlocking {
     val serverTcp: Server = ServerTcp(movieTheaterRepository = movieTheaterRepository)
-    val serverUdp: Server = ServerUdp(movieTheaterRepository = movieTheaterRepository)
-
     launch(Dispatchers.Default) { serverTcp.run() }
-    launch(Dispatchers.Default) { serverUdp.run() }
+    println("Servers listening on port 4446...")
+}
 
-    println("Servers listening on port 4445 and 4446...")
+suspend fun startUdpServer(movieTheaterRepository : MovieTheaterRepository) = runBlocking {
+    val serverUdp: Server = ServerUdp(movieTheaterRepository = movieTheaterRepository)
+    launch(Dispatchers.Default) { serverUdp.run() }
+    println("Servers listening on port 4445...")
 }

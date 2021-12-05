@@ -10,7 +10,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.DatagramPacket
 import java.net.DatagramSocket
-import kotlin.random.Random
 
 class ServerUdp(
     private val socket: DatagramSocket = DatagramSocket(4445),
@@ -38,8 +37,6 @@ class ServerUdp(
         println("UDP - Request on thread ${Thread.currentThread().name}")
         val received = String(packet.data, Charsets.UTF_8).substring(0, packet.length)
         val message = Json.decodeFromString<Message>(received)
-
-        delay(Random.nextLong(100))
 
         when (message.op) {
             Op.List -> sendAvailableChairs(packet)
@@ -69,6 +66,7 @@ class ServerUdp(
         println("Sending...")
         withContext(Dispatchers.IO) {
             socket.send(DatagramPacket(packet, packet.size, address, port))
+            socket.disconnect()
         }
     }
 }

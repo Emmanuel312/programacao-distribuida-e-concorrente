@@ -13,7 +13,6 @@ import java.io.DataOutputStream
 import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.Socket
-import kotlin.random.Random
 
 class ServerTcp(
     private val socket: ServerSocket = ServerSocket(4446),
@@ -45,7 +44,6 @@ class ServerTcp(
         val received = input.readLine()
 
         val message = Json.decodeFromString<Message>(received.toString())
-        delay(Random.nextLong(100))
 
         when (message.op) {
             Op.List -> sendAvailableChairs(connection)
