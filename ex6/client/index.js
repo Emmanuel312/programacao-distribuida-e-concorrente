@@ -34,7 +34,7 @@ async function main(IsLoad = false) {
                     break
                 
                 case '2':
-                    buyTicket(client)
+                    buyTicket(client. answer)
                     break
             }
         })
@@ -55,9 +55,9 @@ async function listAllAvailableChairs(client) {
     })
 }
 
-async function buyTicket(client) {
+async function buyTicket(client, answer) {
     return new Promise((resolve, reject) => { 
-        client.buyTicket({ticket: '11'}, (response, error) => {
+        client.buyTicket({ticket: answer}, (response, error) => {
             if(error) {
                 console.log(error)
                 reject()
