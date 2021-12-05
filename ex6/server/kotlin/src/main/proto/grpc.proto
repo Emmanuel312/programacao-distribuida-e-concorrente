@@ -28,5 +28,4 @@ message ChairList {
   repeated Chair chairs = 1;
 }
 
-
 message Empty {}

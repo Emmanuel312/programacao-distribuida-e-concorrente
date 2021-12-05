@@ -5,7 +5,9 @@ import br.com.cinema.server.Chair
 import br.com.cinema.server.ChairList
 import br.com.cinema.server.adapter.MovieTheaterRepository
 import br.com.cinema.server.grpc.ProtoFactory
+import jakarta.inject.Singleton
 
+@Singleton
 class MovieTheaterRepositoryImpl(
     private var chairs: List<Chair> = List(10) {
         ProtoFactory.chairFactory((it + 1).toLong(), true)
