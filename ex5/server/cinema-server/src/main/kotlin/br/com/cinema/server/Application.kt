@@ -11,8 +11,8 @@ import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
     val movieTheaterRepository = MovieTheaterRepositoryImpl()
-//    startTcpServer(movieTheaterRepository)
-    startUdpServer(movieTheaterRepository)
+    if(System.getenv("IS_UDP_SERVER").toBoolean()) startUdpServer(movieTheaterRepository)
+    else startTcpServer(movieTheaterRepository)
 }
 
 suspend fun startTcpServer(movieTheaterRepository : MovieTheaterRepository) = runBlocking {

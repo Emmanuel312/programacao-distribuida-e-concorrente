@@ -1,7 +1,7 @@
 const dgram = require('dgram')
 const { Buffer } = require('buffer')
-const { input, question } = require('../utils/keyboard')
-const { loadTest } = require('../utils/loadTest')
+const { question } = require('../utils/keyboard')
+const { loadTest, wait } = require('../utils/loadTest')
 const { resolve } = require("path")
 
 async function main(loadTest = false) {
@@ -44,13 +44,16 @@ async function buyTicket(client) {
 
 async function send(client, message) {
     return new Promise((resolve, reject) => {
-        client.send(message, 4445, 'localhost', (err) => {
+        client.send(message, 4445, 'localhost', async (err) => {
+            // console.log("connected")
             if(err) reject()
+            await wait(1000)
+            resolve()
         })
     
         client.addListener("message", msg => {
+            // client.close()
             resolve()
-            client.close()
         })
 
         client.addListener("error", error => {

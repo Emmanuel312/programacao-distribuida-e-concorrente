@@ -1,11 +1,10 @@
 const net = require('net')
-const { input, question } = require('../utils/keyboard')
-const { loadTest } = require('../utils/loadTest')
+const { question } = require('../utils/keyboard')
+const { loadTest, wait } = require('../utils/loadTest')
 const { resolve } = require("path")
 
 async function main(IsLoad = false) {
     const client = new net.Socket({})
-
     if(IsLoad)
         await listAllAvailableChairs(client)
         
@@ -45,9 +44,11 @@ async function send(client, message) {
     return new Promise((resolve, reject) => {
         let received = ""
 
-        client.connect(4446, '127.0.0.1', () => {
+        client.connect(4446, '127.0.0.1', async () => {
             client.write(message)
             // console.log("conectado")
+            await wait(3000)
+            resolve()
         })
         
         client.addListener("data", data => {

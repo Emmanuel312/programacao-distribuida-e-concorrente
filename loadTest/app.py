@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt 
-MAX_ITERATION = 100
+MAX_ITERATION = 10
 
 tcoFileTCP = open("./data/tcp.txt", "wb")
 tcoFileUDP = open("./data/udp.txt", "wb")
@@ -45,8 +45,9 @@ meanTCPArray = []
 meanUDPArray = []
 meanMiddlewareArray = []
 
-for type in ['tcp','udp', "middleware"]:
+for type in ['udp','tcp', 'middleware']:
   print('############################################\n')
+  sh = open("./test.sh", "a")
   print(f"Analisando o {type}:\n")
   for clients in [1,2,5,10]:
     print(f"Analisando para {clients} cliente(s) ativo(s):")
@@ -54,22 +55,23 @@ for type in ['tcp','udp', "middleware"]:
     if type == 'middleware':
       command = createCommand(f"""MAX_ITERATION={MAX_ITERATION} node ../ex6/client/index.js""", clients)
 
-    print(command)
-    os.system(command)
-    file = open(f"./data/{type}.txt", "r")
-    arrayTimes = np.fromstring(file.read(), dtype=int, sep=',')
-    meanTime = arrayTimes.mean()
-    print(f"Média {type}: {meanTime} ms")
-    print(f"Desvio padrão {type}: {arrayTimes.std()}")
-    if(type=='tcp'):
-      meanTCPArray.append(meanTime)
-    elif(type=='udp'):
-      meanUDPArray.append(meanTime)
-    else:
-      meanMiddlewareArray.append(meanTime)
-    file.close()
+    sh.write(command + "\n")
+ 
+    # os.system(command)
+    # file = open(f"./data/{type}.txt", "r")
+    # arrayTimes = np.fromstring(file.read(), dtype=int, sep=',')
+    # meanTime = arrayTimes.mean()
+    # print(f"Média {type}: {meanTime} ms")
+    # print(f"Desvio padrão {type}: {arrayTimes.std()}")
+    # if(type=='tcp'):
+    #   meanTCPArray.append(meanTime)
+    # elif(type=='udp'):
+    #   meanUDPArray.append(meanTime)
+    # else:
+    #   meanMiddlewareArray.append(meanTime)
+    # file.close()
     
-plota_bar_dupla_1(meanTCPArray,meanUDPArray,meanMiddlewareArray)
+# plota_bar_dupla_1(meanTCPArray,meanUDPArray,meanMiddlewareArray)
 
 
 
