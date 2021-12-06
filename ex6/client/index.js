@@ -18,7 +18,6 @@ const packageDefinition = protoLoader.loadSync(
 
 
 const CinemaDefinition = grpc.loadPackageDefinition(packageDefinition).br.com.cinema.server
-
 const connectionUrl = '127.0.0.1:50051'
 const client = new CinemaDefinition.Cinema(connectionUrl, grpc.credentials.createInsecure())
 
@@ -34,7 +33,7 @@ async function main(IsLoad = false) {
                     break
                 
                 case '2':
-                    buyTicket(client. answer)
+                    buyTicket(client, answer)
                     break
             }
         })
@@ -42,32 +41,21 @@ async function main(IsLoad = false) {
 
 async function listAllAvailableChairs(client) {
     return new Promise((resolve, reject) => {
-        client.listAllAvailableChairs({}, (response, error) => {
-            if(error) {
-                console.log(error)
-                reject()
-            }
-            else {
+        client.listAllAvailableChairs({}, (error, response) => {           
                 console.log(response)
                 resolve()
-            }
         })
     })
 }
 
 async function buyTicket(client, answer) {
     return new Promise((resolve, reject) => { 
-        client.buyTicket({ticket: answer}, (response, error) => {
-            if(error) {
-                console.log(error)
-                reject()
-            }
-            else {
-                console.log(response)
-                resolve()
-            }
+        client.buyTicket({ticket: 10}, (error, response) => {
+            console.log(response)
+            resolve()
         })
     })
 }
 
-loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))
+// loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))
+main()

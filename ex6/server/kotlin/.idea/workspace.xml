@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79ed6262-03ab-40e9-b8cc-6333feac588c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../ex5/client/nodejs/utils/loadTest.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ex5/client/nodejs/utils/loadTest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ex5/server/cinema-server/src/main/kotlin/br/com/cinema/server/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ex5/server/cinema-server/src/main/kotlin/br/com/cinema/server/Application.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../loadTest/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../loadTest/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../loadTest/data/middleware.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../loadTest/data/middleware.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../loadTest/data/tcp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../loadTest/data/tcp.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../loadTest/data/udp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../loadTest/data/udp.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
