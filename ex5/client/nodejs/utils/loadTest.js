@@ -11,7 +11,7 @@ async function loadTest(path, func) {
     }
 
     for await (let result of promises) {
-        timeArray.push(result)
+        if(result !== -1) timeArray.push(result)
     }
   
     if(!!process.env.SAVE_INFO) {
@@ -22,11 +22,16 @@ async function loadTest(path, func) {
 }
 
 async function calculateRequestTime(func) {
-    const start = Date.now();
-    await func(true)
-    const time = Date.now() - start;
-
-    return time;
+    try {
+        const start = Date.now();
+        await func(true)
+        const time = Date.now() - start;
+    
+        return time;
+    }
+    catch(error) {
+        return -1;
+    }
 }
 
 async function wait(delay) {

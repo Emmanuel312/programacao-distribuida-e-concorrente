@@ -1,0 +1,5 @@
+#!/bin/bash
+SAVE_INFO=TRUE MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js
+MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & SAVE_INFO=TRUE MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js
+MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & SAVE_INFO=TRUE MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js
+MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js & SAVE_INFO=TRUE MAX_ITERATION=1000 node ../ex5/client/nodejs/udp/index.js
