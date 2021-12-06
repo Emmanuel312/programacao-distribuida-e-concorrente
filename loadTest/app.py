@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt 
 MAX_ITERATION = 10
 
-tcoFileTCP = open("./data/tcp.txt", "wb")
-tcoFileUDP = open("./data/udp.txt", "wb")
-tcoFileMiddleware = open("./data/middleware.txt", "wb")
-tcoFileTCP.close()
-tcoFileUDP.close()
-tcoFileMiddleware.close()
+# tcoFileTCP = open("./data/tcp.txt", "wb")
+# tcoFileUDP = open("./data/udp.txt", "wb")
+# tcoFileMiddleware = open("./data/middleware.txt", "wb")
+# tcoFileTCP.close()
+# tcoFileUDP.close()
+# tcoFileMiddleware.close()
 
 
 
