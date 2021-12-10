@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt 
-MAX_ITERATION = 1000
+MAX_ITERATION = 10000
 
 def createCommand(command, client):
   model = command

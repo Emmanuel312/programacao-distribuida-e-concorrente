@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt 
 import numpy as np
-MAX_ITERATION = 1000
+MAX_ITERATION = 10000
 def plota_bar_dupla_1(media_TCP,media_UDP,media_middleware):
    global MAX_ITERATION
    grupos = 4

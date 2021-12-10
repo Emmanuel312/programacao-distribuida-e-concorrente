@@ -46,9 +46,7 @@ async function send(client, message) {
 
         client.connect(4446, '127.0.0.1', async () => {
             client.write(message)
-            // console.log("conectado")
-            await wait(3000)
-            resolve()
+        
         })
         
         client.addListener("data", data => {

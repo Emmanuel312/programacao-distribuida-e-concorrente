@@ -20,12 +20,12 @@ class ServerUdp(
     override suspend fun run() = coroutineScope {
         println("UDP - Server running on thread ${Thread.currentThread().name}")
         while (true) {
-            println("UDP - Waiting for connections...")
+//            println("UDP - Waiting for connections...  ${count++}")
             val packet = DatagramPacket(buffer, buffer.size)
 
             withContext(Dispatchers.IO) {
                 socket.receive(packet)
-                println("UDP - Receiving connection...")
+//                println("UDP - Receiving connection...")
                 launch(Dispatchers.IO) { process(packet) }
             }
 
@@ -34,10 +34,10 @@ class ServerUdp(
     }
 
     private suspend fun process(packet: DatagramPacket) {
-        println("UDP - Request on thread ${Thread.currentThread().name}")
+//        println("UDP - Request on thread ${Thread.currentThread().name}")
         val received = String(packet.data, Charsets.UTF_8).substring(0, packet.length)
         val message = Json.decodeFromString<Message>(received)
-
+        sendAvailableChairs(packet)
         when (message.op) {
             Op.List -> sendAvailableChairs(packet)
             Op.Buy -> sendBuyTicket(packet, message)
@@ -46,7 +46,7 @@ class ServerUdp(
 
     private suspend fun sendAvailableChairs(packet: DatagramPacket) {
         val data = movieTheaterRepository.listAvailableChairs()
-        sendMessage(packet, Json.encodeToString(data))
+        sendMessage(packet, data.toString())
     }
 
     private suspend fun sendBuyTicket(packet: DatagramPacket, message: Message) {
@@ -63,10 +63,10 @@ class ServerUdp(
         val port = clientPacket.port
         val packet = data.toByteArray()
 
-        println("Sending...")
+//        println("Sending...")
         withContext(Dispatchers.IO) {
             socket.send(DatagramPacket(packet, packet.size, address, port))
-            socket.disconnect()
+//            socket.disconnect()
         }
     }
 }

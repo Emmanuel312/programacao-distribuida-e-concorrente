@@ -3,6 +3,7 @@ const { resolve } = require("path")
 const grpc = require('@grpc/grpc-js')
 const protoLoader = require('@grpc/proto-loader')
 const { loadTest } = require("../../ex5/client/nodejs/utils/loadTest")
+const { exit } = require('process')
 
 const PROTO_PATH = resolve(__dirname,'proto','grpc.proto')
 
@@ -34,6 +35,7 @@ async function main(IsLoad = false) {
                 
                 case '2':
                     buyTicket(client, answer)
+                    input.close()
                     break
             }
         })
@@ -42,20 +44,19 @@ async function main(IsLoad = false) {
 async function listAllAvailableChairs(client) {
     return new Promise((resolve, reject) => {
         client.listAllAvailableChairs({}, (error, response) => {           
-                console.log(response)
-                resolve()
+                // console.log(response)
+                resolve(response)
         })
     })
 }
 
 async function buyTicket(client, answer) {
     return new Promise((resolve, reject) => { 
-        client.buyTicket({ticket: 10}, (error, response) => {
-            console.log(response)
-            resolve()
+        client.buyTicket({ticket: 6}, (error, response) => {
+            // console.log(response)
+            resolve(response)
         })
     })
 }
 
-// loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))
-main()
+loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))

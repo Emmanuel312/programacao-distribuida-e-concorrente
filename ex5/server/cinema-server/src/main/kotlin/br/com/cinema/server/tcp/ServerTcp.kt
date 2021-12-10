@@ -22,11 +22,11 @@ class ServerTcp(
     override suspend fun run() = coroutineScope {
         println("TCP - Server running on thread ${Thread.currentThread().name}")
         while (true) {
-            println("TCP - Waiting for connections...")
+//            println("TCP - Waiting for connections...")
 
             withContext(Dispatchers.IO) {
                 val connection = socket.accept()
-                println("TCP - Receiving connection...")
+//                println("TCP - Receiving connection...")
                 launch { process(connection) }
             }
 
@@ -35,7 +35,7 @@ class ServerTcp(
     }
 
     private suspend fun process(connection: Socket) {
-        println("TCP - Request on thread ${Thread.currentThread().name}")
+//        println("TCP - Request on thread ${Thread.currentThread().name}")
         val input = BufferedReader(
             InputStreamReader(
                 connection.getInputStream()
@@ -69,7 +69,7 @@ class ServerTcp(
         val output = DataOutputStream(
             connection.getOutputStream()
         )
-        println("Sending...")
+//        println("Sending...")
         withContext(Dispatchers.IO) {
             output.writeBytes(data)
             connection.close()

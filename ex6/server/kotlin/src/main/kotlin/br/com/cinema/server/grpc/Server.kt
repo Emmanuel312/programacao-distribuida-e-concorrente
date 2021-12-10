@@ -3,6 +3,7 @@ package br.com.cinema.server.grpc
 import io.grpc.BindableService
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import java.util.concurrent.Executors
 
 class Server(val port: Int, val services: MutableList<BindableService>) {
 
@@ -29,6 +30,7 @@ class Server(val port: Int, val services: MutableList<BindableService>) {
     fun configure() {
         val serverBuilder = ServerBuilder
             .forPort(port)
+            .executor(Executors.newFixedThreadPool(10))
 
         services.forEach {
             serverBuilder.addService(it)

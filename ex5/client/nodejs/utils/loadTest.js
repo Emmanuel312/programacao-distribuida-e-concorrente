@@ -7,11 +7,11 @@ async function loadTest(path, func) {
     const timeArray = []
   
     for(let i = 0; i < MAX_ITERATION; i++) {
-        promises.push(calculateRequestTime(func))
+        promises.push(async () => calculateRequestTime(func))
     }
 
-    for await (let result of promises) {
-        if(result !== -1) timeArray.push(result)
+    for await (let promise of promises) {
+        if(await promise() !== -1) timeArray.push(await promise())
     }
   
     if(!!process.env.SAVE_INFO) {
@@ -23,6 +23,7 @@ async function loadTest(path, func) {
 
 async function calculateRequestTime(func) {
     try {
+        await wait(10)
         const start = Date.now();
         await func(true)
         const time = Date.now() - start;
