@@ -24,11 +24,14 @@ async function loadTest(path, func) {
 async function calculateRequestTime(func) {
     try {
         await wait(10)
-        const start = Date.now();
+       
+        const start = getTimeNowInNanoSeconds()
+        // const start = Date.now()
         await func(true)
-        const time = Date.now() - start;
+        // const end = Date.now() - start
+        const end = getTimeNowInNanoSeconds() - start;
     
-        return time;
+        return end;
     }
     catch(error) {
         return -1;
@@ -42,5 +45,12 @@ async function wait(delay) {
         }, delay)
     })
 } 
+
+function getTimeNowInNanoSeconds() {
+    const hrTime = process.hrtime()
+    const nanoseconds = hrTime[0] * 1000000 + hrTime[1] / 1000
+
+    return nanoseconds
+}
 
 module.exports = { loadTest, wait }

@@ -17,7 +17,7 @@ def plota_bar_dupla_1(media_TCP,media_UDP,media_middleware):
    plt.bar(indice + 2*bar_larg, media_middleware, bar_larg, alpha=transp, color='red', label='middleware')
 
    plt.xlabel('Número de clientes') 
-   plt.ylabel('Tempo médio de respostas (ms)') 
+   plt.ylabel('Tempo médio de respostas (nanosegundos)') 
    plt.title(f'N = {MAX_ITERATION}') 
    plt.xticks(indice + bar_larg, ('1', '2', '5', '10')) 
    plt.legend() 
@@ -39,7 +39,7 @@ for type in ['udp','tcp', 'middleware']:
         if timesByClient  != '':
             arrayTimesByClient = np.fromstring(timesByClient, dtype=int, sep=',')
             meanTime = arrayTimesByClient.mean()
-            print(f" -> Média {type}: {meanTime} ms")
+            print(f" -> Média {type}: {meanTime} nanoseconds")
             print(f" -> Desvio padrão {type}: {arrayTimesByClient.std()}")
             if(type=='tcp'):
                 meanTCPArrayByClient.append(meanTime)
