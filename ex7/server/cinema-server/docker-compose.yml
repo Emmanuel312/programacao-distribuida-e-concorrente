@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  kafka-tools:
+    image: landoop/fast-data-dev:2.6.2
+    container_name: kafka_learn
+    networks:
+      - broker-kafka
+    ports:
+      - '2181:2181'
+      - '9092:9092'
+      - '8081:8081'
+      - '3030:3030'
+    environment:
+      ADV_HOST: localhost
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      RUNTESTS: 0
+      SAMPLEDATA: 0
+
+  #https://github.com/confluentinc/examples/blob/5.1.1-post/microservices-orders/docker-compose.yml#L182-L215
+  kafka-create-topics:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka-setup
+    container_name: kafka-setup-learn
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka-tools
+    command: "bash -c 'sleep 60 && \
+                kafka-topics --create --topic cinema-request --partitions 2 --replication-factor 1 --if-not-exists --zookeeper kafka:2181 
+                && kafka-topics --create --topic cinema-response --partitions 2 --replication-factor 1 --if-not-exists --zookeeper kafka:2181'"
+    environment:
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
+networks:
+  broker-kafka:
+    driver: bridge

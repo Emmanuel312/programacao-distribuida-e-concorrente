@@ -23,7 +23,7 @@ async function loadTest(path, func) {
 
 async function calculateRequestTime(func) {
     try {
-        await wait(10)
+        await wait(Math.floor(Math.random() * 10))
        
         const start = getTimeNowInNanoSeconds()
         // const start = Date.now()

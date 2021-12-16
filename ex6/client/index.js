@@ -44,7 +44,7 @@ async function main(IsLoad = false) {
 async function listAllAvailableChairs(client) {
     return new Promise((resolve, reject) => {
         client.listAllAvailableChairs({}, (error, response) => {           
-                // console.log(response)
+                console.log(response)
                 resolve(response)
         })
     })
@@ -52,11 +52,12 @@ async function listAllAvailableChairs(client) {
 
 async function buyTicket(client, answer) {
     return new Promise((resolve, reject) => { 
-        client.buyTicket({ticket: 6}, (error, response) => {
-            // console.log(response)
+        client.buyTicket({ticket: 11}, (error, response) => {
+            console.log(response)
             resolve(response)
         })
     })
 }
 
-loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))
+// loadTest(resolve(__dirname, "..", "..", "loadTest", "data", "./middleware.txt"), async (IsLoad) => await main(IsLoad))
+main()
