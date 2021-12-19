@@ -11,10 +11,9 @@ async function loadTest(path, func) {
     }
 
     for await (let promise of promises) {
-        const result = await promise()
-        if(result !== -1) timeArray.push(result)
+        if(await promise() !== -1) timeArray.push(await promise())
     }
-
+  
     if(!!process.env.SAVE_INFO) {
         await fs.appendFile(path, timeArray.join(",") + "\n");
     }

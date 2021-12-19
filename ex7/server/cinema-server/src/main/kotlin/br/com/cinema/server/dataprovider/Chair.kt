@@ -1,9 +1,10 @@
 package br.com.cinema.server.dataprovider
 
-import kotlinx.serialization.Serializable
+import com.fasterxml.jackson.annotation.JsonProperty
 
-@Serializable
 data class Chair(
+    @field:JsonProperty
     val number: Int,
+    @field:JsonProperty
     val available: Boolean
 )

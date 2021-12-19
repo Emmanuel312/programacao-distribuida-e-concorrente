@@ -18,22 +18,6 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       RUNTESTS: 0
       SAMPLEDATA: 0
-
-  #https://github.com/confluentinc/examples/blob/5.1.1-post/microservices-orders/docker-compose.yml#L182-L215
-  kafka-create-topics:
-    image: confluentinc/cp-kafka:latest
-    hostname: kafka-setup
-    container_name: kafka-setup-learn
-    networks:
-      - broker-kafka
-    depends_on:
-      - kafka-tools
-    command: "bash -c 'sleep 60 && \
-                kafka-topics --create --topic cinema-request --partitions 2 --replication-factor 1 --if-not-exists --zookeeper kafka:2181 
-                && kafka-topics --create --topic cinema-response --partitions 2 --replication-factor 1 --if-not-exists --zookeeper kafka:2181'"
-    environment:
-      KAFKA_BROKER_ID: ignored
-      KAFKA_ZOOKEEPER_CONNECT: ignored
 networks:
   broker-kafka:
     driver: bridge

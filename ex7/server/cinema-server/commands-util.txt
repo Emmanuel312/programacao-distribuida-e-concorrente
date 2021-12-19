@@ -1,0 +1,4 @@
+docker exec -it kafka_learn /bin/bash
+kafka-topics --create --topic cinema-request --partitions 2 --replication-factor 1 --if-not-exists --zookeeper localhost:2181 && kafka-topics --create --topic cinema-response --partitions 2 --replication-factor 1 --if-not-exists --zookeeper localhost:2181
+kafka-console-producer --broker-list localhost:9092 --topic cinema-request --property "parse.key=true" --property "key.separator=:"
+63941eb2-db95-487d-bfae-b931854a583e:{"op":"List"}

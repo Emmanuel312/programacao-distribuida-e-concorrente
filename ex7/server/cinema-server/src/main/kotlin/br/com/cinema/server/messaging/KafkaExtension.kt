@@ -13,6 +13,8 @@ object KafkaExtension {
     fun <K, V> KafkaProducer<K, V>.sendAsync(record: ProducerRecord<K, V>): Deferred<RecordMetadata> =
         CompletableDeferred<RecordMetadata>().apply {
             send(record) { metadata, exception ->
+                println(metadata.offset())
+                println(exception)
                 if (exception != null) {
                     completeExceptionally(exception)
                 } else {
