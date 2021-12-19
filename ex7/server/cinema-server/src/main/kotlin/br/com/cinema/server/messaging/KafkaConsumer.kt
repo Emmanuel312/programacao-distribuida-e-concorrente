@@ -25,7 +25,6 @@ class KafkaConsumer(
         launch {
             while (true) {
                 consumer.poll(Duration.ofMillis(10)).forEach {
-                    println("Consuming in thread ${Thread.currentThread().name}")
                     listener.process(it.key().toString(), it.value())
                 }
             }

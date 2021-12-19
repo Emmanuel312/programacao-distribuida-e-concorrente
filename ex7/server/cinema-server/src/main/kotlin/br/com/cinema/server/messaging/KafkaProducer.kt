@@ -21,9 +21,7 @@ class KafkaProducer<T>(
         try {
             launch {
                 val record = ProducerRecord(topic, key, json.writeValueAsString(message))
-                println(record)
                 producer.sendAsync(record).await()
-                println("done")
             }
 
 

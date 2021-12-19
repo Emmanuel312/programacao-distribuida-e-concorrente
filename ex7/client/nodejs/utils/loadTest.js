@@ -1,5 +1,16 @@
 const fs = require("fs/promises");
 const { exit } = require("process");
+const { Kafka } = require('kafkajs');
+const { randomUUID } = require("crypto");
+
+const kafka = setupKafka()
+
+function setupKafka() {
+    return new Kafka({
+        clientId: `cinema-client-${randomUUID()}`,
+        brokers: ['localhost:9092']
+    })
+}
 
 async function loadTest(path, func) {
     const MAX_ITERATION = Number(process.env.MAX_ITERATION)
@@ -11,7 +22,8 @@ async function loadTest(path, func) {
     }
 
     for await (let promise of promises) {
-        if(await promise() !== -1) timeArray.push(await promise())
+        const response = await promise()
+        if(response !== -1) timeArray.push(response)
     }
   
     if(!!process.env.SAVE_INFO) {
@@ -23,11 +35,11 @@ async function loadTest(path, func) {
 
 async function calculateRequestTime(func) {
     try {
-        await wait(Math.floor(Math.random() * 10))
+        await wait(Math.floor(Math.random() * 100))
        
         const start = getTimeNowInNanoSeconds()
         // const start = Date.now()
-        await func(true)
+        await func(true, kafka)
         // const end = Date.now() - start
         const end = getTimeNowInNanoSeconds() - start;
     

@@ -15,12 +15,7 @@ def createCommand(command, client):
       command += " & " + model
   return command
 
-
-meanTCPArray = []
-meanUDPArray = []
-meanMiddlewareArray = []
-
-for type in ['udp','tcp', 'middleware']:
+for type in ['udp','tcp', 'middleware','mom']:
   print('############################################\n')
   print(f"Analisando o {type}:\n")
   sh = open(f"""./test-{type}.sh""", "w")
@@ -30,6 +25,8 @@ for type in ['udp','tcp', 'middleware']:
     command = createCommand(f"""MAX_ITERATION={MAX_ITERATION} node ../ex5/client/nodejs/{type}/index.js""", clients)
     if type == 'middleware':
       command = createCommand(f"""MAX_ITERATION={MAX_ITERATION} node ../ex6/client/index.js""", clients)
+    elif type == "mom":
+      command = createCommand(f"""MAX_ITERATION={MAX_ITERATION} node ../ex7/client/nodejs/index.js""", clients)
 
     sh.write(command + "\n")
   sh.close()

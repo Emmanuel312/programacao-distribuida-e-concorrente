@@ -22,7 +22,6 @@ class RequestListener(
     }
 
     private suspend fun listAvailableChairs(correlationId: String) {
-        println(correlationId)
         kafkaProducer.send(correlationId, movieTheaterRepository.listAvailableChairs())
     }
 

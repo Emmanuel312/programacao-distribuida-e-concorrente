@@ -1,0 +1,5 @@
+#!/bin/bash
+SAVE_INFO=TRUE MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js
+MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & SAVE_INFO=TRUE MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js
+MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & SAVE_INFO=TRUE MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js
+MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js & SAVE_INFO=TRUE MAX_ITERATION=10000 node ../ex7/client/nodejs/index.js
